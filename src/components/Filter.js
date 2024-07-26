@@ -1,7 +1,7 @@
 // src/components/Filter.js
 import React from 'react';
 
-const Filter = ({ onFilterChange, onPageSizeChange }) => {
+const Filter = ({ onFilterChange, onPageSizeChange, filters }) => {
   return (
     <div style={{ display: 'flex', gap: '10px' }}>
       <select onChange={(e) => onPageSizeChange(e.target.value)}>
@@ -10,26 +10,14 @@ const Filter = ({ onFilterChange, onPageSizeChange }) => {
         <option value="20">20</option>
         <option value="50">50</option>
       </select>
-      <input
-        type="text"
-        placeholder="Name"
-        onChange={(e) => onFilterChange('firstName', e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Email"
-        onChange={(e) => onFilterChange('email', e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Birth Date"
-        onChange={(e) => onFilterChange('birthDate', e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Gender"
-        onChange={(e) => onFilterChange('gender', e.target.value)}
-      />
+      {filters.map(filter => (
+        <input
+          key={filter.name}
+          type="text"
+          placeholder={filter.placeholder}
+          onChange={(e) => onFilterChange(filter.name, e.target.value)}
+        />
+      ))}
     </div>
   );
 };

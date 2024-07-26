@@ -27,13 +27,13 @@ body {
     color: #322625;
   }
   
-  input, button {
+  input, select, button {
     margin: 10px;
     padding: 5px;
     font-size: 16px;
   }
   
-  input {
+  input, select {
     background-color: #ebebeb;
     border: 1px solid #322625;
     border-radius: 4px;

@@ -1,5 +1,5 @@
 // src/pages/UsersPage.js
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import DataContext from '../contexts/DataContext';
 import DataTable from '../components/DataTable';
 import Filter from '../components/Filter';
@@ -7,7 +7,7 @@ import Pagination from '../components/Pagination';
 import Search from '../components/Search';
 
 const UsersPage = () => {
-  const { users, fetchUsers, loading, setPageSize, setCurrentPage, currentPage, pageSize } = useContext(DataContext);
+  const { users, loading, setPageSize, setCurrentPage } = useContext(DataContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
     firstName: '',
@@ -15,10 +15,6 @@ const UsersPage = () => {
     birthDate: '',
     gender: ''
   });
-
-  useEffect(() => {
-    fetchUsers(pageSize, (currentPage - 1) * pageSize);
-  }, [pageSize, currentPage]);
 
   const handleFilterChange = (filter, value) => {
     setFilters(prevFilters => ({ ...prevFilters, [filter]: value }));
@@ -42,10 +38,15 @@ const UsersPage = () => {
     <div>
       <h1>Users</h1>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Filter onFilterChange={handleFilterChange} onPageSizeChange={handlePageSizeChange} />
+        <Filter onFilterChange={handleFilterChange} onPageSizeChange={handlePageSizeChange} filters={[
+          { name: 'firstName', placeholder: 'Name' },
+          { name: 'email', placeholder: 'Email' },
+          { name: 'birthDate', placeholder: 'Birth Date' },
+          { name: 'gender', placeholder: 'Gender' }
+        ]} />
         <Search onSearch={(query) => setSearchTerm(query)} />
       </div>
-      {loading ? <p>Loading...</p> : <DataTable data={filteredUsers} />}
+      {loading ? <p>Loading...</p> : <DataTable data={filteredUsers} columns={['firstName', 'lastName', 'maidenName', 'age', 'gender', 'email', 'username', 'bloodGroup', 'eyeColor']} />}
       <Pagination onPageChange={(page) => setCurrentPage(page)} />
     </div>
   );
